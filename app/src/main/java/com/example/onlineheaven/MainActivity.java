@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.onlineheaven.adapter.BannerAnimesPagerAdapter;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     MainRecyclerAdapter mainRecyclerAdapter;
     RecyclerView mainRecycler;
 
-
+    Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         categoryTab =findViewById(R.id.tabLayout);
         nestedScrollView =findViewById(R.id.nested_scroll);
         appBarLayout =findViewById(R.id.appbar);
+
+        login=findViewById(R.id.login);
 
         sliderTimer=new Timer();
         sliderTimer.scheduleAtFixedRate(new AutoSlider(),4000,6000);
@@ -102,6 +106,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(i);
+                finish();
+
+            }
+        });
     }
 
 
@@ -191,13 +205,12 @@ public void setMainRecyclerData(){
         public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
             setMainRecycler(response.body());
 
-
-            Toast.makeText(getApplicationContext(),"Data Loaded Succesfully",Toast.LENGTH_LONG).show();
+            Message.longMessage(getApplicationContext(),"Data loaded succesfully");
         }
 
         @Override
         public void onFailure(Call<List<Category>> call, Throwable t) {
-            Toast.makeText(getApplicationContext(),"Problem Loading Data",Toast.LENGTH_LONG).show();
+            Message.longMessage(getApplicationContext(),"Problem loading data");
         }
     });
 }

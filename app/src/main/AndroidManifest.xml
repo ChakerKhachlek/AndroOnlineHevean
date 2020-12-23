@@ -12,10 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineHeaven"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".VideoPlayerActivity"
-            android:screenOrientation="landscape"/>
-
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".VideoPlayerActivity"
+            android:screenOrientation="landscape" />
         <activity android:name=".AnimeDetails" />
         <activity android:name=".MainActivity">
             <intent-filter>
