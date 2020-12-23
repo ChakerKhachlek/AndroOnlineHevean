@@ -7,9 +7,18 @@ public class Anime {
     String description;
     String release_date;
     String rating;
+    String duration;
     String image_url;
     String file_url;
     Integer category_id;
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
 
     public String getRelease_date() {
         return release_date;
@@ -28,12 +37,13 @@ public class Anime {
     }
 
 
-    public Anime(Integer id, String name, String description, String release_date, String rating, String image_url, String file_url, Integer category_id) {
+    public Anime(Integer id, String name, String description, String release_date, String rating, String duration, String image_url, String file_url, Integer category_id) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.release_date = release_date;
         this.rating = rating;
+        this.duration = duration;
         this.image_url = image_url;
         this.file_url = file_url;
         this.category_id = category_id;

@@ -51,6 +51,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
                 i.putExtra("animeDescription", categoryAnimesList.get(position).getDescription());
                 i.putExtra("animeReleaseDate", categoryAnimesList.get(position).getRelease_date());
                 i.putExtra("animeRating", categoryAnimesList.get(position).getRating());
+                i.putExtra("animeDuration", categoryAnimesList.get(position).getDuration());
                 i.putExtra("animeImageUrl", categoryAnimesList.get(position).getImage_url());
                 i.putExtra("animeFile", categoryAnimesList.get(position).getFile_url());
 

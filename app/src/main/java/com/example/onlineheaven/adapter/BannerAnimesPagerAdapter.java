@@ -74,6 +74,7 @@ public class BannerAnimesPagerAdapter extends PagerAdapter {
                 i.putExtra("animeName", bannerAnimesList.get(position).getName());
                 i.putExtra("animeDescription", bannerAnimesList.get(position).getDescription());
                 i.putExtra("animeRating", bannerAnimesList.get(position).getRating());
+                i.putExtra("animeDuration", bannerAnimesList.get(position).getDuration());
                 i.putExtra("animeReleaseDate", bannerAnimesList.get(position).getRelease_date());
                 i.putExtra("animeImageUrl", bannerAnimesList.get(position).getImage_url());
                 i.putExtra("animeFile", bannerAnimesList.get(position).getFile_url());

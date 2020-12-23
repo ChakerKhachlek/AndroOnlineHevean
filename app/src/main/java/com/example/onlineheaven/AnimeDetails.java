@@ -17,10 +17,11 @@ public class AnimeDetails extends AppCompatActivity {
     TextView animeName;
     TextView animeDescription;
     TextView animeReleaseDate;
+    TextView animeDuration;
     TextView animeRating;
     Button playBoutton;
 
-    String aName,aRating,aRelease,aDescription,aImage,aId,aFileUrl;
+    String aName,aRating,aRelease,aDescription,aDuration,aImage,aId,aFileUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class AnimeDetails extends AppCompatActivity {
         animeName= findViewById(R.id.anime_name);
         animeDescription= findViewById(R.id.anime_description);
         animeReleaseDate= findViewById(R.id.anime_release_date);
+        animeDuration= findViewById(R.id.anime_duration);
         animeRating=findViewById(R.id.anime_rating);
         playBoutton= findViewById(R.id.play_button);
 
@@ -41,6 +43,7 @@ public class AnimeDetails extends AppCompatActivity {
         aDescription=getIntent().getStringExtra("animeDescription");
         aRelease=getIntent().getStringExtra("animeReleaseDate");
         aRating=getIntent().getStringExtra("animeRating");
+        aDuration=getIntent().getStringExtra("animeDuration");
         aImage=getIntent().getStringExtra("animeImageUrl");
         aFileUrl=getIntent().getStringExtra("animeFile");
 
@@ -51,6 +54,7 @@ public class AnimeDetails extends AppCompatActivity {
         animeName.setText(aName);
         animeDescription.setText(aDescription);
         animeReleaseDate.setText(aRelease);
+        animeDuration.setText(aDuration);
         animeRating.setText(aRating+"/5.0");
 
         playBoutton.setOnClickListener(new View.OnClickListener() {
