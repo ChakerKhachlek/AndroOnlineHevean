@@ -55,10 +55,24 @@ public interface ApiInterface {
     );
 
     //getuserdata
+    @GET("user/find/{id}")
+    public Call<User> getUserData(@Path("id") Integer id);
 
 
+    //return user if inserted else it a fake user with a username contains error
+    @FormUrlEncoded
+    @POST("user/updateInfo/{id}")
+    Call<User> updateUserInfo(@Path("id") Integer id,
+                            @Field("username") String var1,
+                            @Field("email") String var2
+    );
 
-
+    //return user if inserted else it a fake user with a username contains error
+    @FormUrlEncoded
+    @POST("user/updatePassword/{id}")
+    Call<User> updateUserPassword(@Path("id") Integer id,
+                              @Field("password") String var1
+    );
 
 
 

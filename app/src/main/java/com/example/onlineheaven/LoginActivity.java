@@ -96,8 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     else{
 
-                        Message.longMessage(getApplicationContext(), "Welcome to Online Heaven again " + response.body().getUsername());
-
                         //LoggedInStatus Logic
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt(USER_ID_FIELD,response.body().getId());

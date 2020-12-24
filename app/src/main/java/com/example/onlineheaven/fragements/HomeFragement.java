@@ -35,13 +35,11 @@ import retrofit2.Response;
 
 public class HomeFragement extends Fragment {
     BannerAnimesPagerAdapter bannerAnimesPagerAdapter;
-    TabLayout indicatorTab ,categoryTab;
+    TabLayout indicatorTab, categoryTab;
     ViewPager bannerAnimesViewPager;
 
-
-    List<Anime> topRatedBannerList =new ArrayList<Anime>();
-    List<Anime> lastAddedBannerList =new ArrayList<Anime>();
-
+    List<Anime> topRatedBannerList = new ArrayList<Anime>();
+    List<Anime> lastAddedBannerList = new ArrayList<Anime>();
 
     Timer sliderTimer;
 
@@ -53,12 +51,9 @@ public class HomeFragement extends Fragment {
     RecyclerView mainRecycler;
 
 
-
-
     public HomeFragement() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -66,17 +61,17 @@ public class HomeFragement extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        View v =inflater.inflate(R.layout.fragment_home_fragement, container, false);
+        View v = inflater.inflate(R.layout.fragment_home_fragement, container, false);
 
-        indicatorTab =v.findViewById(R.id.tab_indicator);
-        categoryTab =v.findViewById(R.id.tabLayout);
-        nestedScrollView =v.findViewById(R.id.nested_scroll);
-        appBarLayout =v.findViewById(R.id.appbar);
+        indicatorTab = v.findViewById(R.id.tab_indicator);
+        categoryTab = v.findViewById(R.id.tabLayout);
+        nestedScrollView = v.findViewById(R.id.nested_scroll);
+        appBarLayout = v.findViewById(R.id.appbar);
 
 
-        sliderTimer=new Timer();
-        sliderTimer.scheduleAtFixedRate(new AutoSlider(),4000,6000);
-        indicatorTab.setupWithViewPager(bannerAnimesViewPager,true);
+        sliderTimer = new Timer();
+        sliderTimer.scheduleAtFixedRate(new AutoSlider(), 4000, 6000);
+        indicatorTab.setupWithViewPager(bannerAnimesViewPager, true);
 
         //setting the banner data tabs Lists
         setBannerData(v);
@@ -89,15 +84,15 @@ public class HomeFragement extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                switch(tab.getPosition()){
-                    case 1 :
+                switch (tab.getPosition()) {
+                    case 1:
                         setScrollDefaultState();
-                        setBannerAnimesPagerAdapter(v,topRatedBannerList);
+                        setBannerAnimesPagerAdapter(v, topRatedBannerList);
                         return;
 
                     default:
                         setScrollDefaultState();
-                        setBannerAnimesPagerAdapter(v,lastAddedBannerList);
+                        setBannerAnimesPagerAdapter(v, lastAddedBannerList);
                         return;
                 }
 
@@ -115,7 +110,6 @@ public class HomeFragement extends Fragment {
         });
 
 
-
         return v;
     }
 
@@ -123,51 +117,53 @@ public class HomeFragement extends Fragment {
 
         @Override
         public void run() {
-            // todo crash app
-            getActivity().runOnUiThread(() -> {
-                if (bannerAnimesViewPager.getCurrentItem() < topRatedBannerList.size() - 1) {
-                    bannerAnimesViewPager.setCurrentItem(bannerAnimesViewPager.getCurrentItem() + 1);
-                } else {
-                    bannerAnimesViewPager.setCurrentItem(0);
-                }
-            });
+            //veirfy
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (bannerAnimesViewPager.getCurrentItem() < topRatedBannerList.size() - 1) {
+                        bannerAnimesViewPager.setCurrentItem(bannerAnimesViewPager.getCurrentItem() + 1);
+                    } else {
+                        bannerAnimesViewPager.setCurrentItem(0);
+                    }
+                });
+            }
         }
 
     }
 
-         private void setBannerAnimesPagerAdapter(View v, List<Anime> bannerAnimesList){
+    private void setBannerAnimesPagerAdapter(View v, List<Anime> bannerAnimesList) {
 
 
         bannerAnimesViewPager = v.findViewById(R.id.banner_viewPager);
-        bannerAnimesPagerAdapter= new BannerAnimesPagerAdapter(getContext(),bannerAnimesList);
+        bannerAnimesPagerAdapter = new BannerAnimesPagerAdapter(getContext(), bannerAnimesList);
         bannerAnimesViewPager.setAdapter(bannerAnimesPagerAdapter);
         indicatorTab.setupWithViewPager(bannerAnimesViewPager);
 
-            }
+    }
 
-    public void setMainRecycler(View v,List<Category> allCategoryList){
+    public void setMainRecycler(View v, List<Category> allCategoryList) {
         mainRecycler = v.findViewById(R.id.main_recycler);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         mainRecycler.setLayoutManager(layoutManager);
-        mainRecyclerAdapter=new MainRecyclerAdapter(getContext(),allCategoryList);
+        mainRecyclerAdapter = new MainRecyclerAdapter(getContext(), allCategoryList);
         mainRecycler.setAdapter(mainRecyclerAdapter);
     }
 
-    private void setScrollDefaultState(){
+    private void setScrollDefaultState() {
 
         nestedScrollView.fullScroll(View.FOCUS_UP);
-        nestedScrollView.scrollTo(0,0);
+        nestedScrollView.scrollTo(0, 0);
         appBarLayout.setExpanded(true);
     }
 
-    public void setBannerData(View v){
+    public void setBannerData(View v) {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
-        Call<List<Anime>> callTopAnimes=apiClient.getTopRatedAnimes();
+        Call<List<Anime>> callTopAnimes = apiClient.getTopRatedAnimes();
         callTopAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
-                topRatedBannerList =response.body();
+                topRatedBannerList = response.body();
             }
 
             @Override
@@ -177,12 +173,12 @@ public class HomeFragement extends Fragment {
         });
 
 
-        Call<List<Anime>> callLastAnimes=apiClient.getLatestAnimes();
+        Call<List<Anime>> callLastAnimes = apiClient.getLatestAnimes();
         callLastAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
-                lastAddedBannerList =response.body();
-                setBannerAnimesPagerAdapter(v,lastAddedBannerList);
+                lastAddedBannerList = response.body();
+                setBannerAnimesPagerAdapter(v, lastAddedBannerList);
 
             }
 
@@ -195,21 +191,21 @@ public class HomeFragement extends Fragment {
 
     }
 
-    public void setMainRecyclerData(View v){
+    public void setMainRecyclerData(View v) {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
-        Call<List<Category>> call=apiClient.getAllData();
+        Call<List<Category>> call = apiClient.getAllData();
         call.enqueue(new Callback<List<Category>>() {
 
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                setMainRecycler(v,response.body());
+                setMainRecycler(v, response.body());
 
-                Message.shortMessage(getContext(),"Anime data loaded !");
+                Message.shortMessage(getContext(), "Anime data loaded !");
             }
 
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
-                Message.shortMessage(getContext(),"Problem loading data");
+                Message.shortMessage(getContext(), "Problem loading data");
             }
         });
     }
