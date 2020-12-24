@@ -1,16 +1,20 @@
 package com.example.onlineheaven;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.onlineheaven.adapter.BannerAnimesPagerAdapter;
@@ -50,7 +54,21 @@ public class MainActivity extends AppCompatActivity {
     MainRecyclerAdapter mainRecyclerAdapter;
     RecyclerView mainRecycler;
 
-    Button login;
+    Button logoutButton;
+
+
+    public final static int REQUEST_LOGIN=1;
+    public static final String LOGIN_PREFERENCE = "loginPreference";
+    public static final String USER_ID_FIELD = "ID";
+    SharedPreferences sharedPreferences;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkLogin();
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         nestedScrollView =findViewById(R.id.nested_scroll);
         appBarLayout =findViewById(R.id.appbar);
 
-        login=findViewById(R.id.login);
+        logoutButton=findViewById(R.id.logoutButton);
 
         sliderTimer=new Timer();
         sliderTimer.scheduleAtFixedRate(new AutoSlider(),4000,6000);
@@ -74,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
         //setting the main recycler data tabs Lists
         setMainRecyclerData();
-
 
         //on tab change selected data
         categoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -107,17 +124,44 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        login.setOnClickListener(new View.OnClickListener() {
+
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(i);
-                finish();
-
+                logout();
             }
         });
+
+
     }
 
+
+    private void checkLogin(){
+        sharedPreferences = getSharedPreferences(LOGIN_PREFERENCE,
+                Context.MODE_PRIVATE);
+
+        //if user not logged in
+        if (!(sharedPreferences.contains(USER_ID_FIELD))) {
+            Message.shortMessage(getApplicationContext(),"Login");
+
+            Intent redirectLogin=new Intent(MainActivity.this,LoginActivity.class);
+            startActivityForResult(redirectLogin,REQUEST_LOGIN);
+        }
+        else{
+            Message.longMessage(getApplicationContext(),sharedPreferences.getInt(USER_ID_FIELD,0)+"");
+        }
+
+    }
+
+    public void logout(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(USER_ID_FIELD);
+        editor.commit();
+
+        Intent redirectLogin=new Intent(MainActivity.this,LoginActivity.class);
+        startActivityForResult(redirectLogin,REQUEST_LOGIN);
+    }
 
     private void setBannerAnimesPagerAdapter(List<Anime> bannerAnimesList){
 
@@ -205,12 +249,12 @@ public void setMainRecyclerData(){
         public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
             setMainRecycler(response.body());
 
-            Message.longMessage(getApplicationContext(),"Data loaded succesfully");
+            Message.shortMessage(getApplicationContext(),"Anime data loaded !");
         }
 
         @Override
         public void onFailure(Call<List<Category>> call, Throwable t) {
-            Message.longMessage(getApplicationContext(),"Problem loading data");
+            Message.shortMessage(getApplicationContext(),"Problem loading data");
         }
     });
 }

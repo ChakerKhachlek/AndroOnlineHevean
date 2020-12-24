@@ -2,7 +2,9 @@ package com.example.onlineheaven;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     Button goLogin;
 
+    public static final String LOGIN_PREFERENCE = "loginPreference";
+    public static final String USER_ID_FIELD = "ID";
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +44,9 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton=findViewById(R.id.registerButton);
 
         goLogin=findViewById(R.id.goLogin);
+
+        sharedPreferences = getSharedPreferences(LOGIN_PREFERENCE,
+                Context.MODE_PRIVATE);
 
         goLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +97,15 @@ public class RegisterActivity extends AppCompatActivity {
                          }else {
 
                              Message.longMessage(getApplicationContext(), "Welcome to Online Heaven " + response.body().getUsername());
-                             // TODO LoggedInStatus Logic
+
+
+
+                             //LoggedInStatus Logic
+                             SharedPreferences.Editor editor = sharedPreferences.edit();
+                             editor.putInt(USER_ID_FIELD,response.body().getId());
+                             editor.commit();
+
+                             //redirect to home
                              Intent homeIntent = new Intent(RegisterActivity.this, MainActivity.class);
                              startActivity(homeIntent);
                              finish();
