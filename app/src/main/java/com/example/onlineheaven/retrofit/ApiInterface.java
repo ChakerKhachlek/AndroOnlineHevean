@@ -54,6 +54,11 @@ public interface ApiInterface {
                             @Field("password") String var3
     );
 
+    //getuserdata
+
+
+
+
 
 
 
