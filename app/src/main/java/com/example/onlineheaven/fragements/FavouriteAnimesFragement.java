@@ -41,6 +41,8 @@ public class FavouriteAnimesFragement extends Fragment {
         // Required empty public constructor
     }
 
+
+
     @Override
     public void onResume() {
         super.onResume();

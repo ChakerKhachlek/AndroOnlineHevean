@@ -37,11 +37,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public TextView userProfileName;
     public TextView userProfileEmail;
 
+    Fragment fragment;
 
     public final static int REQUEST_LOGIN = 1;
     public static final String LOGIN_PREFERENCE = "loginPreference";
     public static final String USER_ID_FIELD = "ID";
     SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onResume() {
@@ -54,25 +56,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar=findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer=findViewById(R.id.drawer_layout);
-        NavigationView navigationView=findViewById(R.id.nav_view);
+
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawer,toolbar,
-                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         //getting the drawer header TextViews
         View headerView = navigationView.getHeaderView(0);
 
-        userProfileName=headerView.findViewById(R.id.userName);
-        userProfileEmail=headerView.findViewById(R.id.userEmail);
+        userProfileName = headerView.findViewById(R.id.userName);
+        userProfileEmail = headerView.findViewById(R.id.userEmail);
 
-
+        fragment=new HomeFragement();
         //setting the default fragement (Home)
         getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
                 new HomeFragement()).commit();
@@ -81,31 +84,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else{
-            super.onBackPressed();
+        } else if (!(fragment instanceof HomeFragement)) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
+                    new HomeFragement()).commit();
+        } else {
+
         }
 
-        super.onBackPressed();
 
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.home_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
                         new HomeFragement()).commit();
+
+                fragment = new HomeFragement();
                 break;
 
             case R.id.edit_profile_item:
                 Bundle bundleEdit = new Bundle();
-                bundleEdit.putInt("userID",sharedPreferences.getInt(USER_ID_FIELD, 0));
+                bundleEdit.putInt("userID", sharedPreferences.getInt(USER_ID_FIELD, 0));
 
-                Fragment editFragement =new EditInfoFragement();
+                Fragment editFragement = new EditInfoFragement();
+                fragment=editFragement;
                 editFragement.setArguments(bundleEdit);
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container, editFragement).commit();
@@ -114,19 +122,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.favourites_profile_item:
                 Bundle bundleFavourite = new Bundle();
-                bundleFavourite.putInt("userID",sharedPreferences.getInt(USER_ID_FIELD, 0));
+                bundleFavourite.putInt("userID", sharedPreferences.getInt(USER_ID_FIELD, 0));
 
-                Fragment favouriteFragement =new FavouriteAnimesFragement();
+                Fragment favouriteFragement = new FavouriteAnimesFragement();
+                fragment=favouriteFragement;
                 favouriteFragement.setArguments(bundleFavourite);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container, favouriteFragement).commit();
 
                 break;
 
             case R.id.logout_profile_item:
-                Message.longMessage(this,"Logout");
+                Message.longMessage(this, "Logout");
                 logout();
                 break;
-
 
 
         }
@@ -152,15 +160,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void setLoginInfo(int userID){
+    public void setLoginInfo(int userID) {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
-        Call<User> callUser=apiClient.getUserData(userID);
+        Call<User> callUser = apiClient.getUserData(userID);
         callUser.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
-                User userData=response.body();
+                User userData = response.body();
                 userProfileName.setText(userData.getUsername());
                 userProfileEmail.setText(userData.getEmail());
 
@@ -186,8 +194,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
-
 
 
 }
