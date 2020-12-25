@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 userProfileName.setText(userData.getUsername());
                 userProfileEmail.setText(userData.getEmail());
 
-                Message.shortMessage(getApplicationContext(),"Welcome to Online Heaven "+response.body().getUsername());
+
             }
 
             @Override

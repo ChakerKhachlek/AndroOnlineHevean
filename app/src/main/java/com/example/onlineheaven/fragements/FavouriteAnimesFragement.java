@@ -34,26 +34,44 @@ public class FavouriteAnimesFragement extends Fragment {
 
     RecyclerView favouriteRecycler;
     FavouriteRecyclerAdapter favouriteRecyclerAdapter;
+    private boolean allowRefresh = false;
 
+    public View v;
     public FavouriteAnimesFragement() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Initialize();
+        if(allowRefresh){
+            allowRefresh=false;
+            //call your initialization code here
+            setUserAnimeFavouriteList(v);
+        }
+    }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!allowRefresh)
+            allowRefresh = true;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_favourite_animes_fragement, container, false);
+        //I made it as local variable so i can update the favourite list when i back from details activity
+
+        v= inflater.inflate(R.layout.fragment_favourite_animes_fragement, container, false);
 
         userId = getArguments().getInt("userID");
 
 
          setUserAnimeFavouriteList(v);
-
-
 
 
 

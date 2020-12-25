@@ -1,6 +1,9 @@
 package com.example.onlineheaven;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -166,7 +169,7 @@ public class AnimeDetails extends AppCompatActivity {
                 if (response.body().getName().contentEquals("addedToFavourite")) {
                     notFavouriteButton.setVisibility(View.INVISIBLE);
                     isFavouriteButton.setVisibility(View.VISIBLE);
-                    Log.d("aaa",aId+" added to favourite");
+
                 }
             }
 
@@ -189,7 +192,11 @@ public class AnimeDetails extends AppCompatActivity {
                 if (response.body().getName().contentEquals("removedFromFavourite")) {
                     isFavouriteButton.setVisibility(View.INVISIBLE);
                     notFavouriteButton.setVisibility(View.VISIBLE);
-                    Log.d("aaa",aId+" removed from favourite");
+                    // Reload current fragment
+
+
+
+
                 }
             }
 
