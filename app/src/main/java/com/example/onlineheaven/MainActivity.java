@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.onlineheaven.fragements.EditInfoFragement;
+import com.example.onlineheaven.fragements.FavouriteAnimesFragement;
 import com.example.onlineheaven.fragements.HomeFragement;
 import com.example.onlineheaven.model.Anime;
 import com.example.onlineheaven.model.User;
@@ -101,18 +102,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.edit_profile_item:
-                Bundle bundle = new Bundle();
-                bundle.putInt("userID",sharedPreferences.getInt(USER_ID_FIELD, 0));
+                Bundle bundleEdit = new Bundle();
+                bundleEdit.putInt("userID",sharedPreferences.getInt(USER_ID_FIELD, 0));
 
                 Fragment editFragement =new EditInfoFragement();
-                editFragement.setArguments(bundle);
+                editFragement.setArguments(bundleEdit);
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container, editFragement).commit();
 
                 break;
 
             case R.id.favourites_profile_item:
-                Message.longMessage(this,"favourite");
+                Bundle bundleFavourite = new Bundle();
+                bundleFavourite.putInt("userID",sharedPreferences.getInt(USER_ID_FIELD, 0));
+
+                Fragment favouriteFragement =new FavouriteAnimesFragement();
+                favouriteFragement.setArguments(bundleFavourite);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container, favouriteFragement).commit();
+
                 break;
 
             case R.id.logout_profile_item:

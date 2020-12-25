@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="84dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="TextView"
         android:textColor="@color/white"
@@ -136,10 +136,42 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
-        android:textColor="@color/white"
         android:text="TextView"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/anime_name" />
+
+    <Button
+        android:id="@+id/isFavouriteButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/is_favourite"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/anime_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/anime_image"
+
+        />
+
+    <Button
+        android:id="@+id/notFavouriteButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/not_favourite"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/anime_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/anime_image" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

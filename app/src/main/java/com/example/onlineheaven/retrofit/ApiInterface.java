@@ -74,6 +74,31 @@ public interface ApiInterface {
                               @Field("password") String var1
     );
 
+    //returns user favourite animes
+    @GET("user/{id}/favourites")
+    public Call<List<Anime>> getuserFavouriteAnimes(@Path("id") Integer id);
+
+    //add an anime to user favourite animes
+    @GET("user/{userid}/addfavourite/{animeid}")
+    public Call<Anime> addFavouriteAnime(@Path("userid") Integer userid,
+                                              @Path("animeid") Integer animeid);
+
+
+    //remove an anime from user favourite animes
+    @GET("user/{userid}/removefavourite/{animeid}")
+    public Call<Anime> removeFavouriteAnime(@Path("userid") Integer userid,
+                                    @Path("animeid") Integer animeid);
+
+    //checkifuserfavouriteanime
+    @GET("user/{userid}/favourite/{animeid}")
+    public Call<Anime> isFavourite(@Path("userid") Integer userid,
+                                         @Path("animeid") Integer animeid);
+
+
+
+
+
+
 
 
 
