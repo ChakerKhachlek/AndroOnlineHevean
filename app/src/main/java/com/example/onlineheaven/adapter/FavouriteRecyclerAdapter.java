@@ -59,9 +59,8 @@ public class FavouriteRecyclerAdapter extends RecyclerView.Adapter<FavouriteRecy
     @Override
     public void onBindViewHolder(@NonNull FavouriteViewHolder holder, int position) {
 
-
-
         Glide.with(context).load(favouriteAnimesList.get(position).getImage_url()).into(holder.favouriteAnimeImage);
+
         holder.favouriteAnimeTitle.setText(favouriteAnimesList.get(position).getName());
 
         holder.favouriteAnimeImage.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +75,6 @@ public class FavouriteRecyclerAdapter extends RecyclerView.Adapter<FavouriteRecy
                 i.putExtra("animeDuration", favouriteAnimesList.get(position).getDuration());
                 i.putExtra("animeImageUrl", favouriteAnimesList.get(position).getImage_url());
                 i.putExtra("animeFile", favouriteAnimesList.get(position).getFile_url());
-
 
                 context.startActivity(i);
             }

@@ -20,6 +20,7 @@ import com.example.onlineheaven.model.Anime;
 import com.example.onlineheaven.model.User;
 import com.example.onlineheaven.retrofit.ApiInterface;
 import com.example.onlineheaven.retrofit.RetroFitClient;
+import com.example.onlineheaven.sqllite.DatabaseHelper;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,6 +93,13 @@ public class AnimeDetails extends AppCompatActivity {
         playBoutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatabaseHelper db = new
+                        DatabaseHelper(getApplicationContext());
+
+
+                db.insert(userID,aName);
+
+
                 Intent i = new Intent(AnimeDetails.this, VideoPlayerActivity.class);
                 i.putExtra("url", aFileUrl);
                 startActivity(i);

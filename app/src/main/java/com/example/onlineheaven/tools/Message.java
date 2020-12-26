@@ -1,7 +1,6 @@
-package com.example.onlineheaven;
+package com.example.onlineheaven.tools;
 
 import android.content.Context;
-import android.text.Html;
 import android.widget.Toast;
 
 public class Message {

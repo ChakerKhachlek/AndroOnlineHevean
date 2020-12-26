@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view"
-    android:fitsSystemWindows="true">
+
+    tools:showIn="navigation_view">
+
 
     <group android:checkableBehavior="single">
         <item
@@ -10,10 +11,6 @@
             android:icon="@drawable/ic_baseline_home_24"
             android:title="Home" />
 
-        <item
-            android:id="@+id/edit_profile_item"
-            android:icon="@drawable/ic_baseline_edit_24"
-            android:title="Edit Profile" />
 
         <item
             android:id="@+id/favourites_profile_item"
@@ -21,10 +18,28 @@
             android:title="Favourites" />
 
         <item
-            android:id="@+id/logout_profile_item"
-            android:icon="@drawable/ic_baseline_login_24"
-            android:title="Logout" />
+            android:id="@+id/historique_profile_item"
+            android:icon="@drawable/ic_baseline_access_time_24"
+            android:title="Watch History" />
+
 
 
     </group>
+
+    <item android:title="Manage Account">
+        <menu>
+            <item
+                android:id="@+id/edit_profile_item"
+                android:icon="@drawable/ic_baseline_edit_24"
+                android:title="Edit Profile" />
+            <item
+
+
+                android:id="@+id/logout_profile_item"
+                android:icon="@drawable/ic_baseline_login_24"
+                android:title="Logout" />
+
+        </menu>
+    </item>
+
 </menu>

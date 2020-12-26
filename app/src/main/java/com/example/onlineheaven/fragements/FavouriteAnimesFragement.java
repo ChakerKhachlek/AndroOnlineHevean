@@ -41,8 +41,6 @@ public class FavouriteAnimesFragement extends Fragment {
         // Required empty public constructor
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -70,7 +68,7 @@ public class FavouriteAnimesFragement extends Fragment {
 
         v= inflater.inflate(R.layout.fragment_favourite_animes_fragement, container, false);
 
-        userId = getArguments().getInt("userID");
+         userId = getArguments().getInt("userID");
 
 
          setUserAnimeFavouriteList(v);

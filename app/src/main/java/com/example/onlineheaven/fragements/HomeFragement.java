@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.onlineheaven.MainActivity;
 import com.example.onlineheaven.Message;
 import com.example.onlineheaven.R;
 import com.example.onlineheaven.adapter.BannerAnimesPagerAdapter;
@@ -47,6 +48,7 @@ public class HomeFragement extends Fragment {
     AppBarLayout appBarLayout;
 
 
+
     MainRecyclerAdapter mainRecyclerAdapter;
     RecyclerView mainRecycler;
 
@@ -73,41 +75,47 @@ public class HomeFragement extends Fragment {
         sliderTimer.scheduleAtFixedRate(new AutoSlider(), 4000, 6000);
         indicatorTab.setupWithViewPager(bannerAnimesViewPager, true);
 
+
+
         //setting the banner data tabs Lists
         setBannerData(v);
 
         //setting the main recycler data tabs Lists
         setMainRecyclerData(v);
 
-        //on tab change selected data
-        categoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
 
-                switch (tab.getPosition()) {
-                    case 1:
-                        setScrollDefaultState();
-                        setBannerAnimesPagerAdapter(v, topRatedBannerList);
-                        return;
 
-                    default:
-                        setScrollDefaultState();
-                        setBannerAnimesPagerAdapter(v, lastAddedBannerList);
-                        return;
+
+            //on tab change selected data
+            categoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+
+                    switch (tab.getPosition()) {
+                        case 1:
+                            setScrollDefaultState();
+                            setBannerAnimesPagerAdapter(v, topRatedBannerList);
+                            return;
+
+                        default:
+                            setScrollDefaultState();
+                            setBannerAnimesPagerAdapter(v, lastAddedBannerList);
+                            return;
+                    }
+
                 }
 
-            }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                }
 
-            }
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+                }
+            });
 
-            }
-        });
 
 
         return v;
@@ -117,19 +125,20 @@ public class HomeFragement extends Fragment {
 
         @Override
         public void run() {
-            //veirfy
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (bannerAnimesViewPager.getCurrentItem() < topRatedBannerList.size() - 1) {
-                        bannerAnimesViewPager.setCurrentItem(bannerAnimesViewPager.getCurrentItem() + 1);
-                    } else {
-                        bannerAnimesViewPager.setCurrentItem(0);
-                    }
-                });
+
+
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (bannerAnimesViewPager.getCurrentItem() < topRatedBannerList.size() - 1) {
+                            bannerAnimesViewPager.setCurrentItem(bannerAnimesViewPager.getCurrentItem() + 1);
+                        } else {
+                            bannerAnimesViewPager.setCurrentItem(0);
+                        }
+                    });
+                }
             }
         }
 
-    }
 
     private void setBannerAnimesPagerAdapter(View v, List<Anime> bannerAnimesList) {
 
@@ -163,12 +172,21 @@ public class HomeFragement extends Fragment {
         callTopAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
+
+
                 topRatedBannerList = response.body();
+
             }
 
             @Override
             public void onFailure(Call<List<Anime>> call, Throwable t) {
 
+                Message.shortMessage(getActivity(),"Not Connected");
+                try {
+                    HomeFragement.this.finalize();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
         });
 
@@ -177,6 +195,7 @@ public class HomeFragement extends Fragment {
         callLastAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
+
                 lastAddedBannerList = response.body();
                 setBannerAnimesPagerAdapter(v, lastAddedBannerList);
 

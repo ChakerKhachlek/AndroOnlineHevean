@@ -94,6 +94,11 @@ public interface ApiInterface {
     public Call<Anime> isFavourite(@Path("userid") Integer userid,
                                          @Path("animeid") Integer animeid);
 
+    //return user values if  else it a fake user with a username contains error
+    @FormUrlEncoded
+    @POST("animes/search")
+    Call<List<Anime>> searchAnimes(@Field("querry") String querry
+    );
 
 
 

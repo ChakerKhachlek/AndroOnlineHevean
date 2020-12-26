@@ -15,21 +15,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        
+
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/design_default_color_primary"
-            android:id="@+id/toolbar"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-           app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:background="#D7B400C1"
             android:elevation="4dp"
-            />
+
+            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <FrameLayout
             android:id="@+id/fragement_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/dead_server"
+                android:scaleType="fitXY"
+                android:layout_margin="30px"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/poison"
+                android:visibility="gone" />
+        </FrameLayout>
+
+
     </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
