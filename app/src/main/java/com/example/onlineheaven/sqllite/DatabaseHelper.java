@@ -6,9 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.onlineheaven.model.History;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
@@ -58,17 +63,18 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         return i;
     }
 
-    public ArrayList getAllHistory(Integer id) {
+    public ArrayList<History> getAllHistory(Integer id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<String> array_list = new ArrayList<String>();
-        Cursor res = db.rawQuery( "select * from "+ HISTORY_TABLE_NAME +" WHERE userid ="+id, null );
+        List<History> array_list = new ArrayList<History>();
+        Cursor res = db.rawQuery( "select * from "+ HISTORY_TABLE_NAME +" WHERE userid ="+id+" ORDER BY datetime DESC ", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false) {
-            array_list.add(res.getString(res.getColumnIndex("seriename"))+"   "+res.getString(res.getColumnIndex("datetime")));
+            History h=new History(res.getInt(res.getColumnIndex("id")),res.getString(res.getColumnIndex("seriename"))+"   "+res.getString(res.getColumnIndex("datetime")));
+            array_list.add(h);
             res.moveToNext();
         }
-        return array_list;
+        return (ArrayList<History>) array_list;
     }
 
     public boolean deleteAll() {
@@ -79,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     public boolean deleteSingle(Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE from "+ HISTORY_TABLE_NAME + " WHERE serieid = "+id);
+        db.execSQL("DELETE from "+ HISTORY_TABLE_NAME + " WHERE id = "+id);
         return true;
     }
 }

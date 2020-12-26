@@ -17,11 +17,12 @@ import com.example.onlineheaven.adapter.HistoryRecyclerAdapter;
 import com.example.onlineheaven.sqllite.DatabaseHelper;
 
 import java.util.List;
+import java.util.Map;
 
 public class HistoryFragment extends Fragment {
     RecyclerView historyRecycler;
     HistoryRecyclerAdapter historyAdapter;
-    List<String> historyList;
+    List historyList;
     Button clearButton;
     @Nullable
     @Override
