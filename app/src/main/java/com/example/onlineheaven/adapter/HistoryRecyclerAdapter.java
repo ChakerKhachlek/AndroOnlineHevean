@@ -104,7 +104,9 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         DatabaseHelper db=(DatabaseHelper) new DatabaseHelper(this.context);
         db.deleteSingle(item.getId());
 
-        notifyItemRemoved(currPosition);
+
+        notifyDataSetChanged();
+
 
 
     }
