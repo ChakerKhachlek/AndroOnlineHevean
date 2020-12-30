@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.Menu;
@@ -27,6 +28,7 @@ import com.example.onlineheaven.fragements.EditInfoFragement;
 import com.example.onlineheaven.fragements.FavouriteAnimesFragement;
 import com.example.onlineheaven.fragements.HistoryFragment;
 import com.example.onlineheaven.fragements.HomeFragement;
+import com.example.onlineheaven.fragements.LocalisationFragment;
 import com.example.onlineheaven.fragements.SearchAnimeFragment;
 
 import com.example.onlineheaven.model.User;
@@ -234,10 +236,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
 
+            case R.id.localisation_item:
+                Bundle bundleLocalisation= new Bundle();
+                bundleLocalisation.putInt("userID", sharedPreferences.getInt(USER_ID_FIELD, 0));
+
+                Fragment localisationFragement = new LocalisationFragment();
+
+                fragment = localisationFragement ;
+                localisationFragement.setArguments(bundleLocalisation);
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container, localisationFragement).commit();
+
+                break;
+
+            case R.id.website_item:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://onlineaheavenplatform.azurewebsites.net/forum/home"));
+                startActivity(browserIntent);
+                break;
+
+
             case R.id.logout_profile_item:
                 Message.longMessage(this, "Logout");
                 logout();
                 break;
+
+
 
 
 

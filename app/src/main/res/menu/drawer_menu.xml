@@ -24,6 +24,8 @@
 
 
 
+
+
     </group>
 
     <item android:title="Manage Account">
@@ -34,10 +36,25 @@
                 android:title="Edit Profile" />
             <item
 
-
                 android:id="@+id/logout_profile_item"
                 android:icon="@drawable/ic_baseline_login_24"
-                android:title="Logout" />
+                android:title="Change Account" />
+
+        </menu>
+    </item>
+
+    <item android:title="About Us">
+        <menu>
+
+            <item
+                android:id="@+id/website_item"
+                android:icon="@drawable/ic_outline_public_24"
+                android:title="Website" />
+
+            <item
+                android:id="@+id/localisation_item"
+                android:icon="@drawable/ic_baseline_map_24"
+                android:title="Find us" />
 
         </menu>
     </item>
