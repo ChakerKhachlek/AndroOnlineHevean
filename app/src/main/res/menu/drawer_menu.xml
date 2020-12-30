@@ -20,7 +20,7 @@
         <item
             android:id="@+id/historique_profile_item"
             android:icon="@drawable/ic_baseline_access_time_24"
-            android:title="Watch History" />
+            android:title="Device Watch History" />
 
 
 

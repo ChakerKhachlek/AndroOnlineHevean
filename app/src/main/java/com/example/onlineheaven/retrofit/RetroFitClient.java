@@ -17,7 +17,7 @@ public class RetroFitClient {
     //http://192.168.1.51:8000
 
 
-    private static final String BASE_URL = "http://192.168.1.51:8000/api/";
+    private static final String BASE_URL = "https://animerestapi.azurewebsites.net/api/";
 
 
     public static ApiInterface getRetroFitClient(){
