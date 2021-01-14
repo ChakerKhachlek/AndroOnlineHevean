@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +17,15 @@ import com.example.onlineheaven.model.User;
 import com.example.onlineheaven.retrofit.ApiInterface;
 import com.example.onlineheaven.retrofit.RetroFitClient;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    MediaPlayer mp = new MediaPlayer();
     EditText username;
     EditText email;
     EditText password;
@@ -65,6 +71,23 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    public void playSoundEffect(String effectUrl){
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
+        try {
+            mp.reset();
+            AssetFileDescriptor afd;
+            afd = getAssets().openFd(effectUrl);
+            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mp.prepare();
+            mp.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void registerUser(){
         String usern = username.getText().toString().trim();
@@ -101,6 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
                              editor.putInt(USER_ID_FIELD,response.body().getId());
                              editor.commit();
 
+                             playSoundEffect("opening.mp3");
                              //redirect to home
                              Intent homeIntent = new Intent(RegisterActivity.this, MainActivity.class);
                              startActivity(homeIntent);

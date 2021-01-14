@@ -3,8 +3,11 @@ package com.example.onlineheaven.fragements;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 
@@ -29,17 +32,10 @@ public class LocalisationFragment extends Fragment {
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
+
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
             BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.ic_launcher);
             Bitmap b=bitmapdraw.getBitmap();
@@ -49,6 +45,18 @@ public class LocalisationFragment extends Fragment {
             googleMap.addMarker(new MarkerOptions().position(OnlineHeavenPlace).title("Online Heaven Corporation").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(OnlineHeavenPlace));
+
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+
+            googleMap.setMyLocationEnabled(true);
+
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+            googleMap.getUiSettings().setRotateGesturesEnabled(true);
+
         }
     };
 

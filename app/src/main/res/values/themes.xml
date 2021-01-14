@@ -15,17 +15,5 @@
 
     </style>
 
-    <style name="Theme.OnlineHeaven.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
 
-
-
-    </style>
-
-
-
-    <style name="Theme.OnlineHeaven.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.OnlineHeaven.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".fragements.AvatarFragment">
+
+    <ImageView
+        android:id="@+id/bold_man"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
+        android:src="@mipmap/bold_man"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rockstar_avatar" />
+
+    <ImageView
+        android:id="@+id/girl_yelling"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/girl_yelling"
+        app:layout_constraintEnd_toStartOf="@+id/bold_man"
+        app:layout_constraintStart_toEndOf="@+id/boy_thinking"
+        app:layout_constraintTop_toBottomOf="@+id/man_avatar" />
+
+    <ImageView
+        android:id="@+id/boy_thinking"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/boy_thinking"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cool_avatar" />
+
+    <ImageView
+        android:id="@+id/rockstar_avatar"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
+        android:src="@mipmap/rockstar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hipster_avatar" />
+
+    <ImageView
+        android:id="@+id/man_avatar"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/man"
+        app:layout_constraintEnd_toStartOf="@+id/rockstar_avatar"
+        app:layout_constraintStart_toEndOf="@+id/cool_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/girl_avatar" />
+
+    <ImageView
+        android:id="@+id/cool_avatar"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/cool"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/boy_avatar" />
+
+    <ImageView
+        android:id="@+id/hipster_avatar"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
+        android:src="@mipmap/hipster"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/current_avatar" />
+
+    <ImageView
+        android:id="@+id/girl_avatar"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/girl"
+        app:layout_constraintEnd_toStartOf="@+id/hipster_avatar"
+        app:layout_constraintStart_toEndOf="@+id/boy_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/current_avatar" />
+
+    <ImageView
+        android:id="@+id/current_avatar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+
+        android:layout_marginTop="32dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/boy_avatar"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/boy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/current_avatar" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

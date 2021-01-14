@@ -1,5 +1,7 @@
 package com.example.onlineheaven.fragements;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.onlineheaven.ErrorActivity;
 import com.example.onlineheaven.MainActivity;
 import com.example.onlineheaven.Message;
 import com.example.onlineheaven.R;
@@ -168,6 +171,8 @@ public class HomeFragement extends Fragment {
     public void setBannerData(View v) {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
+
+
         Call<List<Anime>> callTopAnimes = apiClient.getTopRatedAnimes();
         callTopAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
@@ -176,17 +181,15 @@ public class HomeFragement extends Fragment {
 
                 topRatedBannerList = response.body();
 
+
             }
 
             @Override
             public void onFailure(Call<List<Anime>> call, Throwable t) {
 
                 Message.shortMessage(getActivity(),"Not Connected");
-                try {
-                    HomeFragement.this.finalize();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
+
+
             }
         });
 
@@ -212,19 +215,30 @@ public class HomeFragement extends Fragment {
 
     public void setMainRecyclerData(View v) {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
+
+
         Call<List<Category>> call = apiClient.getAllData();
         call.enqueue(new Callback<List<Category>>() {
 
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                setMainRecycler(v, response.body());
+                if(response.body() !=null){
+                    setMainRecycler(v, response.body());
+                    Message.shortMessage(getContext(), "Anime data loaded !");
+                }else{
+                    Message.shortMessage(getContext(), "Problem loading data");
+                   Intent intent=new Intent(getActivity(), ErrorActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
 
-                Message.shortMessage(getContext(), "Anime data loaded !");
+
             }
 
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
-                Message.shortMessage(getContext(), "Problem loading data");
+
+
             }
         });
     }
