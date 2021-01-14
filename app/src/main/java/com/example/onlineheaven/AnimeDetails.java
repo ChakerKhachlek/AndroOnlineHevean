@@ -97,7 +97,7 @@ public class AnimeDetails extends AppCompatActivity {
                         DatabaseHelper(getApplicationContext());
 
 
-                db.insert(userID,aName);
+                db.insert(userID, aName);
 
 
                 Intent i = new Intent(AnimeDetails.this, VideoPlayerActivity.class);
@@ -188,7 +188,7 @@ public class AnimeDetails extends AppCompatActivity {
         });
     }
 
-    public void removeFromFavorite(){
+    public void removeFromFavorite() {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
         Call<Anime> addFavouriteCall = apiClient.removeFavouriteAnime(userID, aId);
 
@@ -201,8 +201,6 @@ public class AnimeDetails extends AppCompatActivity {
                     isFavouriteButton.setVisibility(View.INVISIBLE);
                     notFavouriteButton.setVisibility(View.VISIBLE);
                     // Reload current fragment
-
-
 
 
                 }

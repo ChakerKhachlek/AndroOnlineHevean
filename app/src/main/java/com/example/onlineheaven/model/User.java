@@ -3,11 +3,10 @@ package com.example.onlineheaven.model;
 
 public class User {
 
-    Integer id ;
+    Integer id;
     String username;
     String email;
     String password;
-
 
 
     public User(Integer id, String username, String email, String password) {

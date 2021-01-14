@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button loginButton;
 
-    Button goRegister ;
+    Button goRegister;
 
     public static final String LOGIN_PREFERENCE = "loginPreference";
     public static final String USER_ID_FIELD = "ID";
@@ -39,12 +39,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        email=findViewById(R.id.loginEmail);
-        password=findViewById(R.id.loginPassword);
+        email = findViewById(R.id.loginEmail);
+        password = findViewById(R.id.loginPassword);
 
-        loginButton=findViewById(R.id.loginButton);
+        loginButton = findViewById(R.id.loginButton);
 
-        goRegister=findViewById(R.id.goRegister);
+        goRegister = findViewById(R.id.goRegister);
 
 
         sharedPreferences = getSharedPreferences(LOGIN_PREFERENCE,
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         goRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent=new Intent(LoginActivity.this,RegisterActivity.class);
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(registerIntent);
                 finish();
             }
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void loginUser(){
+    public void loginUser() {
 
         String emai = email.getText().toString().trim();
         String pass = password.getText().toString().trim();
@@ -77,12 +77,11 @@ public class LoginActivity extends AppCompatActivity {
 
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        if(emai.isEmpty() || pass.isEmpty() ){
-            Message.longMessage(getApplicationContext(),"All fields are required ");
-        }else if(!(emai.matches(emailPattern))){
-            Message.longMessage(getApplicationContext(),"Email must be valid !");
-        }
-        else {
+        if (emai.isEmpty() || pass.isEmpty()) {
+            Message.longMessage(getApplicationContext(), "All fields are required ");
+        } else if (!(emai.matches(emailPattern))) {
+            Message.longMessage(getApplicationContext(), "Email must be valid !");
+        } else {
 
             ApiInterface apiClient = RetroFitClient.getRetroFitClient();
             Call<User> loginCall = apiClient.loginUser(emai, pass);
@@ -91,20 +90,18 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<User> call, Response<User> response) {
 
                     //verif if user else it will return an email error
-                    if((response.body().getUsername().contentEquals("notfound") )){
-                        Message.longMessage(getApplicationContext(),"Email does not exist ...");
+                    if ((response.body().getUsername().contentEquals("notfound"))) {
+                        Message.longMessage(getApplicationContext(), "Email does not exist ...");
 
-                    }else if((response.body().getUsername().contentEquals("wrongpassword") )){
-                        Message.longMessage(getApplicationContext(),"Wrong password ...");
+                    } else if ((response.body().getUsername().contentEquals("wrongpassword"))) {
+                        Message.longMessage(getApplicationContext(), "Wrong password ...");
 
-                    }
-                    else{
+                    } else {
 
                         //LoggedInStatus Logic
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt(USER_ID_FIELD,response.body().getId());
+                        editor.putInt(USER_ID_FIELD, response.body().getId());
                         editor.commit();
-
 
 
                         setResult(RESULT_OK);
@@ -119,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
             });
 
         }
-        }
+    }
 
 
 }

@@ -51,7 +51,6 @@ public class HomeFragement extends Fragment {
     AppBarLayout appBarLayout;
 
 
-
     MainRecyclerAdapter mainRecyclerAdapter;
     RecyclerView mainRecycler;
 
@@ -79,7 +78,6 @@ public class HomeFragement extends Fragment {
         indicatorTab.setupWithViewPager(bannerAnimesViewPager, true);
 
 
-
         //setting the banner data tabs Lists
         setBannerData(v);
 
@@ -87,38 +85,35 @@ public class HomeFragement extends Fragment {
         setMainRecyclerData(v);
 
 
+        //on tab change selected data
+        categoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
 
+                switch (tab.getPosition()) {
+                    case 1:
+                        setScrollDefaultState();
+                        setBannerAnimesPagerAdapter(v, topRatedBannerList);
+                        return;
 
-            //on tab change selected data
-            categoryTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-
-                    switch (tab.getPosition()) {
-                        case 1:
-                            setScrollDefaultState();
-                            setBannerAnimesPagerAdapter(v, topRatedBannerList);
-                            return;
-
-                        default:
-                            setScrollDefaultState();
-                            setBannerAnimesPagerAdapter(v, lastAddedBannerList);
-                            return;
-                    }
-
+                    default:
+                        setScrollDefaultState();
+                        setBannerAnimesPagerAdapter(v, lastAddedBannerList);
+                        return;
                 }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
-                }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
+            }
 
-                }
-            });
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
 
 
         return v;
@@ -130,17 +125,17 @@ public class HomeFragement extends Fragment {
         public void run() {
 
 
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        if (bannerAnimesViewPager.getCurrentItem() < topRatedBannerList.size() - 1) {
-                            bannerAnimesViewPager.setCurrentItem(bannerAnimesViewPager.getCurrentItem() + 1);
-                        } else {
-                            bannerAnimesViewPager.setCurrentItem(0);
-                        }
-                    });
-                }
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (bannerAnimesViewPager.getCurrentItem() < topRatedBannerList.size() - 1) {
+                        bannerAnimesViewPager.setCurrentItem(bannerAnimesViewPager.getCurrentItem() + 1);
+                    } else {
+                        bannerAnimesViewPager.setCurrentItem(0);
+                    }
+                });
             }
         }
+    }
 
 
     private void setBannerAnimesPagerAdapter(View v, List<Anime> bannerAnimesList) {
@@ -172,7 +167,6 @@ public class HomeFragement extends Fragment {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
 
-
         Call<List<Anime>> callTopAnimes = apiClient.getTopRatedAnimes();
         callTopAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
@@ -187,7 +181,7 @@ public class HomeFragement extends Fragment {
             @Override
             public void onFailure(Call<List<Anime>> call, Throwable t) {
 
-                Message.shortMessage(getActivity(),"Not Connected");
+                Message.shortMessage(getActivity(), "Not Connected");
 
 
             }
@@ -222,12 +216,12 @@ public class HomeFragement extends Fragment {
 
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                if(response.body() !=null){
+                if (response.body() != null) {
                     setMainRecycler(v, response.body());
                     Message.shortMessage(getContext(), "Anime data loaded !");
-                }else{
+                } else {
                     Message.shortMessage(getContext(), "Problem loading data");
-                   Intent intent=new Intent(getActivity(), ErrorActivity.class);
+                    Intent intent = new Intent(getActivity(), ErrorActivity.class);
                     startActivity(intent);
                     getActivity().finish();
                 }

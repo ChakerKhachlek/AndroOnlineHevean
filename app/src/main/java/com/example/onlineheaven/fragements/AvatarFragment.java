@@ -30,7 +30,7 @@ public class AvatarFragment extends Fragment {
     public static final String LOGIN_PREFERENCE = "loginPreference";
     public static final String USER_AVATAR_FIELD = "AVATAR";
 
-    ImageView current_avatar,boy_avatar,girl_avatar,hipster_avatar,cool_avatar,man_avatar,rockstar_avatar,boy_thinking,girl_yelling,bold_man;
+    ImageView current_avatar, boy_avatar, girl_avatar, hipster_avatar, cool_avatar, man_avatar, rockstar_avatar, boy_thinking, girl_yelling, bold_man;
     int selectedResourceId;
 
     public AvatarFragment() {
@@ -42,24 +42,24 @@ public class AvatarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =inflater.inflate(R.layout.fragment_avatar, container, false);
+        View v = inflater.inflate(R.layout.fragment_avatar, container, false);
         sharedPreferences = getActivity().getSharedPreferences(LOGIN_PREFERENCE,
                 Context.MODE_PRIVATE);
 
-        Integer resourceAvatar=sharedPreferences.getInt(USER_AVATAR_FIELD,0);
+        Integer resourceAvatar = sharedPreferences.getInt(USER_AVATAR_FIELD, 0);
 
-        current_avatar=v.findViewById(R.id.current_avatar);
+        current_avatar = v.findViewById(R.id.current_avatar);
         current_avatar.setBackgroundResource(resourceAvatar);
 
-        boy_avatar=v.findViewById(R.id.boy_avatar);
-        girl_avatar=v.findViewById(R.id.girl_avatar);
-        hipster_avatar=v.findViewById(R.id.hipster_avatar);
-        cool_avatar=v.findViewById(R.id.cool_avatar);
-        man_avatar=v.findViewById(R.id.man_avatar);
-        rockstar_avatar=v.findViewById(R.id.rockstar_avatar);
-        boy_thinking=v.findViewById(R.id.boy_thinking);
-        girl_yelling=v.findViewById(R.id.girl_yelling);
-        bold_man=v.findViewById(R.id.bold_man);
+        boy_avatar = v.findViewById(R.id.boy_avatar);
+        girl_avatar = v.findViewById(R.id.girl_avatar);
+        hipster_avatar = v.findViewById(R.id.hipster_avatar);
+        cool_avatar = v.findViewById(R.id.cool_avatar);
+        man_avatar = v.findViewById(R.id.man_avatar);
+        rockstar_avatar = v.findViewById(R.id.rockstar_avatar);
+        boy_thinking = v.findViewById(R.id.boy_thinking);
+        girl_yelling = v.findViewById(R.id.girl_yelling);
+        bold_man = v.findViewById(R.id.bold_man);
 
         boy_avatar.setOnTouchListener(new OnTouchListener(R.mipmap.boy));
         girl_avatar.setOnTouchListener(new OnTouchListener(R.mipmap.girl));
@@ -72,25 +72,20 @@ public class AvatarFragment extends Fragment {
         bold_man.setOnTouchListener(new OnTouchListener(R.mipmap.bold_man));
 
 
-
-
-
-
         current_avatar.setOnDragListener(new OnDragListner());
-
 
 
         return v;
     }
 
 
-    public void playSoundEffect(String fileUrl){
+    public void playSoundEffect(String fileUrl) {
 
         try {
             mp.reset();
             AssetFileDescriptor afd;
             afd = getActivity().getAssets().openFd(fileUrl);
-            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             mp.prepare();
             mp.start();
         } catch (IllegalStateException e) {
@@ -100,21 +95,22 @@ public class AvatarFragment extends Fragment {
         }
     }
 
-    private class OnTouchListener implements View.OnTouchListener{
+    private class OnTouchListener implements View.OnTouchListener {
         Integer avatarResourceId;
-        public OnTouchListener(Integer avatarResourceId){
-            this.avatarResourceId=avatarResourceId;
+
+        public OnTouchListener(Integer avatarResourceId) {
+            this.avatarResourceId = avatarResourceId;
         }
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    selectedResourceId=avatarResourceId;
-                    ClipData data = ClipData.newPlainText("","");
-                    View.DragShadowBuilder shadowBuilder=new View.DragShadowBuilder(v);
+                    selectedResourceId = avatarResourceId;
+                    ClipData data = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                     v.setVisibility(View.INVISIBLE);
-                    v.startDrag(data,shadowBuilder,v,0);
+                    v.startDrag(data, shadowBuilder, v, 0);
                     return true;
                 case MotionEvent.ACTION_UP:
                     return true;
@@ -127,13 +123,13 @@ public class AvatarFragment extends Fragment {
     }
 
 
-    private class OnDragListner implements View.OnDragListener{
+    private class OnDragListner implements View.OnDragListener {
 
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
-            switch(event.getAction()){
+            switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
 
                     break;
@@ -145,7 +141,7 @@ public class AvatarFragment extends Fragment {
                     break;
                 case DragEvent.ACTION_DROP:
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt(USER_AVATAR_FIELD,selectedResourceId);
+                    editor.putInt(USER_AVATAR_FIELD, selectedResourceId);
                     editor.commit();
                     current_avatar.setBackgroundResource(selectedResourceId);
 
@@ -153,12 +149,11 @@ public class AvatarFragment extends Fragment {
                     NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
                     View headerView = navigationView.getHeaderView(0);
 
-                    ImageView profile_image=headerView.findViewById(R.id.profile_image);
+                    ImageView profile_image = headerView.findViewById(R.id.profile_image);
                     profile_image.setBackgroundResource(selectedResourceId);
 
                     //playing paper change sound effect
-                    if(mp.isPlaying())
-                    {
+                    if (mp.isPlaying()) {
                         mp.stop();
                     }
                     playSoundEffect("success_sound_effect.mp3");

@@ -78,8 +78,8 @@ public class EditInfoFragement extends Fragment {
 
     public void updateProfile() {
 
-        String inputUs=userName.getText().toString();
-        String inputEm=userEmail.getText().toString();
+        String inputUs = userName.getText().toString();
+        String inputEm = userEmail.getText().toString();
 
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if ((inputUs.contentEquals(oldUserName)) && (inputEm.contentEquals(oldUserEmail))) {
@@ -90,16 +90,16 @@ public class EditInfoFragement extends Fragment {
 
             ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
-            Call<User> callUser = apiClient.updateUserInfo(userId,inputUs,inputEm);
+            Call<User> callUser = apiClient.updateUserInfo(userId, inputUs, inputEm);
             callUser.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
 
                     User userData = response.body();
-                    if((userData.getUsername().contentEquals("erroremail") )){
-                        Message.longMessage(getActivity(),"Email already taken");
+                    if ((userData.getUsername().contentEquals("erroremail"))) {
+                        Message.longMessage(getActivity(), "Email already taken");
 
-                    }else {
+                    } else {
                         Message.longMessage(getActivity(), "Profile updated " + response.body().getUsername());
                         ((MainActivity) getActivity()).userProfileName.setText(userData.getUsername());
                         ((MainActivity) getActivity()).userProfileEmail.setText(userData.getEmail());
@@ -116,27 +116,26 @@ public class EditInfoFragement extends Fragment {
 
 
     public void updatePassword() {
-        String newpass=newPassword.getText().toString();
-        String conpass=confirmNewPassword.getText().toString();
+        String newpass = newPassword.getText().toString();
+        String conpass = confirmNewPassword.getText().toString();
 
-        if(newpass.contentEquals("")){
-            Message.longMessage(getActivity(),"Choose a password first");
-        }
-        else if(!(newpass.contentEquals(conpass))){
-            Message.longMessage(getActivity(),"Password & confirm password must match !");
-        }else{
+        if (newpass.contentEquals("")) {
+            Message.longMessage(getActivity(), "Choose a password first");
+        } else if (!(newpass.contentEquals(conpass))) {
+            Message.longMessage(getActivity(), "Password & confirm password must match !");
+        } else {
             ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
-            Call<User> callUser = apiClient.updateUserPassword(userId,newpass);
+            Call<User> callUser = apiClient.updateUserPassword(userId, newpass);
             callUser.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
 
                     User userData = response.body();
-                    if((userData.getUsername().contentEquals("samepassword") )){
-                        Message.longMessage(getActivity(),"Pick a new password !");
+                    if ((userData.getUsername().contentEquals("samepassword"))) {
+                        Message.longMessage(getActivity(), "Pick a new password !");
 
-                    }else {
+                    } else {
                         Message.longMessage(getActivity(), "Password updated " + response.body().getUsername());
 
                     }

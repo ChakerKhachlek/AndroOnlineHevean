@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NotificationManagerCompat notificationManager;
 
 
-
     private DrawerLayout drawer;
     public TextView userProfileName;
     public TextView userProfileEmail;
@@ -81,12 +80,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SharedPreferences sharedPreferences;
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
         checkConnectionStatus();
-            checkLogin();
+        checkLogin();
 
     }
 
@@ -103,53 +101,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-            drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
 
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            navigationView.setNavigationItemSelectedListener(this);
-
-
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                    R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
-
-            //getting the drawer header TextViews
-            View headerView = navigationView.getHeaderView(0);
-
-            userProfileName = headerView.findViewById(R.id.userName);
-            userProfileEmail = headerView.findViewById(R.id.userEmail);
-
-             //getting the drawer header avatar
-            edit_profile_image=headerView.findViewById(R.id.edit_profile_image);
-            edit_profile_image.setOnClickListener(new View.OnClickListener(){
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
-                @Override
-                public void onClick(View v) {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
+        //getting the drawer header TextViews
+        View headerView = navigationView.getHeaderView(0);
+
+        userProfileName = headerView.findViewById(R.id.userName);
+        userProfileEmail = headerView.findViewById(R.id.userEmail);
+
+        //getting the drawer header avatar
+        edit_profile_image = headerView.findViewById(R.id.edit_profile_image);
+        edit_profile_image.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
+                        new AvatarFragment()).commit();
+
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else if (!(fragment instanceof HomeFragement)) {
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
-                            new AvatarFragment()).commit();
+                            new HomeFragement()).commit();
+                } else {
 
-                    if (drawer.isDrawerOpen(GravityCompat.START)) {
-                        drawer.closeDrawer(GravityCompat.START);
-                    } else if (!(fragment instanceof HomeFragement)) {
-
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
-                                new HomeFragement()).commit();
-                    } else {
-
-                    }
                 }
-            });
+            }
+        });
 
         //setting the default fragement (Home)
         getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
                 new HomeFragement()).commit();
 
     }
-
 
 
     @Override
@@ -214,19 +211,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     @Override
     public void onBackPressed() {
 
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else if (!(fragment instanceof HomeFragement)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (!(fragment instanceof HomeFragement)) {
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
-                        new HomeFragement()).commit();
-            } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,
+                    new HomeFragement()).commit();
+        } else {
 
-            }
+        }
 
 
     }
@@ -274,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 Fragment historyFragement = new HistoryFragment();
 
-                fragment = historyFragement ;
+                fragment = historyFragement;
                 historyFragement.setArguments(bundleHistory);
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container, historyFragement).commit();
@@ -282,12 +278,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.localisation_item:
-                Bundle bundleLocalisation= new Bundle();
+                Bundle bundleLocalisation = new Bundle();
                 bundleLocalisation.putInt("userID", sharedPreferences.getInt(USER_ID_FIELD, 0));
 
                 Fragment localisationFragement = new LocalisationFragment();
 
-                fragment = localisationFragement ;
+                fragment = localisationFragement;
                 localisationFragement.setArguments(bundleLocalisation);
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container, localisationFragement).commit();
@@ -295,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.website_item:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW , Uri.parse("https://onlineaheavenplatform.azurewebsites.net/forum/home"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://onlineaheavenplatform.azurewebsites.net/forum/home"));
                 startActivity(browserIntent);
                 break;
 
@@ -310,7 +306,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
     @SuppressLint("ResourceType")
@@ -336,27 +331,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
-        ImageView profile_image=headerView.findViewById(R.id.profile_image);
+        ImageView profile_image = headerView.findViewById(R.id.profile_image);
 
 
         if (!(sharedPreferences.contains(USER_AVATAR_FIELD))) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(USER_AVATAR_FIELD,R.mipmap.ic_launcher_round);
+            editor.putInt(USER_AVATAR_FIELD, R.mipmap.ic_launcher_round);
             editor.commit();
             profile_image.setBackgroundResource(R.mipmap.ic_launcher_round);
 
 
-        }else{
-            profile_image.setBackgroundResource(sharedPreferences.getInt(USER_AVATAR_FIELD,0));
+        } else {
+            profile_image.setBackgroundResource(sharedPreferences.getInt(USER_AVATAR_FIELD, 0));
         }
 
     }
 
-    public void sendOnChannel1(){
+    public void sendOnChannel1() {
 
 
-
-        Notification notification = new NotificationCompat.Builder(this,CHANNEL_1_ID)
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
 
                 .setSmallIcon(R.drawable.ic_baseline_wash_24)
                 .setContentTitle("Online Heaven")
@@ -366,18 +360,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 .build();
 
-            Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-            // Vibrate for 500 milliseconds
-            v.vibrate(500);
-            notificationManager.notify(1,notification);
-
-
-
+        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
+        notificationManager.notify(1, notification);
 
 
     }
 
-    public void checkConnectionStatus(){
+    public void checkConnectionStatus() {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
         Call<List<Category>> callUser = apiClient.getAllData();
@@ -385,24 +376,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
 
-                if(response.body() == null && !(response.isSuccessful())){
-                    Intent intent=new Intent(getApplicationContext(), ErrorActivity.class);
+                if (response.body() == null && !(response.isSuccessful())) {
+                    Intent intent = new Intent(getApplicationContext(), ErrorActivity.class);
                     startActivity(intent);
                     finish();
                 }
 
             }
+
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
-                Intent intent=new Intent(getApplicationContext(), ErrorActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ErrorActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
 
     }
-
-
 
 
     public void setLoginInfo(int userID) {
@@ -414,9 +404,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onResponse(Call<User> call, Response<User> response) {
 
 
-                    User userData = response.body();
-                    userProfileName.setText(userData.getUsername());
-                    userProfileEmail.setText(userData.getEmail());
+                User userData = response.body();
+                userProfileName.setText(userData.getUsername());
+                userProfileEmail.setText(userData.getEmail());
 
             }
 

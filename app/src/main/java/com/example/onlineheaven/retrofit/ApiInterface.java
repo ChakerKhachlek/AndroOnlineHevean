@@ -42,16 +42,16 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("user/register")
     Call<User> registerUser(@Field("username") String var1,
-                          @Field("email") String var2,
-                          @Field("password") String var3,
-                          @Field("confirmPassword") String var4
-                          );
+                            @Field("email") String var2,
+                            @Field("password") String var3,
+                            @Field("confirmPassword") String var4
+    );
 
     //return user values if  else it a fake user with a username contains error
     @FormUrlEncoded
     @POST("user/login")
     Call<User> loginUser(@Field("email") String var2,
-                            @Field("password") String var3
+                         @Field("password") String var3
     );
 
     //getuserdata
@@ -63,15 +63,15 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("user/updateInfo/{id}")
     Call<User> updateUserInfo(@Path("id") Integer id,
-                            @Field("username") String var1,
-                            @Field("email") String var2
+                              @Field("username") String var1,
+                              @Field("email") String var2
     );
 
     //return user if inserted else it a fake user with a username contains error
     @FormUrlEncoded
     @POST("user/updatePassword/{id}")
     Call<User> updateUserPassword(@Path("id") Integer id,
-                              @Field("password") String var1
+                                  @Field("password") String var1
     );
 
     //returns user favourite animes
@@ -81,43 +81,24 @@ public interface ApiInterface {
     //add an anime to user favourite animes
     @GET("user/{userid}/addfavourite/{animeid}")
     public Call<Anime> addFavouriteAnime(@Path("userid") Integer userid,
-                                              @Path("animeid") Integer animeid);
+                                         @Path("animeid") Integer animeid);
 
 
     //remove an anime from user favourite animes
     @GET("user/{userid}/removefavourite/{animeid}")
     public Call<Anime> removeFavouriteAnime(@Path("userid") Integer userid,
-                                    @Path("animeid") Integer animeid);
+                                            @Path("animeid") Integer animeid);
 
     //checkifuserfavouriteanime
     @GET("user/{userid}/favourite/{animeid}")
     public Call<Anime> isFavourite(@Path("userid") Integer userid,
-                                         @Path("animeid") Integer animeid);
+                                   @Path("animeid") Integer animeid);
 
     //return user values if  else it a fake user with a username contains error
     @FormUrlEncoded
     @POST("animes/search")
     Call<List<Anime>> searchAnimes(@Field("querry") String querry
     );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

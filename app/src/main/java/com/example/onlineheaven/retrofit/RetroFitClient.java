@@ -1,7 +1,6 @@
 package com.example.onlineheaven.retrofit;
 
 
-
 import com.google.gson.Gson;
 
 
@@ -19,10 +18,10 @@ public class RetroFitClient {
     private static final String BASE_URL = "http://192.168.1.51:8000/api/";
 
 
-    public static ApiInterface getRetroFitClient(){
+    public static ApiInterface getRetroFitClient() {
 
 
-        Retrofit.Builder builder=new Retrofit.Builder()
+        Retrofit.Builder builder = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .baseUrl(BASE_URL);

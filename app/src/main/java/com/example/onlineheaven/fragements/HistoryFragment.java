@@ -24,16 +24,17 @@ public class HistoryFragment extends Fragment {
     HistoryRecyclerAdapter historyAdapter;
     List historyList;
     Button clearButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v =inflater.inflate(R.layout.fragment_history, container, false);
+        View v = inflater.inflate(R.layout.fragment_history, container, false);
 
-        clearButton=v.findViewById(R.id.clear_history);
-        DatabaseHelper db=(DatabaseHelper) new DatabaseHelper(this.getContext());
+        clearButton = v.findViewById(R.id.clear_history);
+        DatabaseHelper db = (DatabaseHelper) new DatabaseHelper(this.getContext());
 
         historyRecycler =
                 v.findViewById(R.id.history_recycler);
@@ -46,14 +47,14 @@ public class HistoryFragment extends Fragment {
 
 
         Integer userId = getArguments().getInt("userID");
-        historyList=db.getAllHistory(userId);
+        historyList = db.getAllHistory(userId);
 
 
         historyAdapter = new HistoryRecyclerAdapter(getActivity(), historyList);
         historyRecycler.setAdapter(historyAdapter);
 
-        Integer elementCount=historyList.size();
-        if(elementCount ==0){
+        Integer elementCount = historyList.size();
+        if (elementCount == 0) {
             clearButton.setVisibility(View.INVISIBLE);
         }
 
@@ -61,15 +62,13 @@ public class HistoryFragment extends Fragment {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            db.deleteAll();
+                db.deleteAll();
 
-            historyList=db.getAllHistory(userId);
-            historyAdapter = new HistoryRecyclerAdapter(getActivity(), historyList);
-            historyRecycler.setAdapter(historyAdapter);
+                historyList = db.getAllHistory(userId);
+                historyAdapter = new HistoryRecyclerAdapter(getActivity(), historyList);
+                historyRecycler.setAdapter(historyAdapter);
             }
         });
-
-
 
 
         return v;

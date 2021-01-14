@@ -32,13 +32,12 @@ public class LocalisationFragment extends Fragment {
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
 
-
         @Override
         public void onMapReady(GoogleMap googleMap) {
             googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
-            BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.ic_launcher);
-            Bitmap b=bitmapdraw.getBitmap();
+            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher);
+            Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 84, 84, false);
 
             LatLng OnlineHeavenPlace = new LatLng(36.83813031290214, 10.312981578605426);
@@ -61,7 +60,6 @@ public class LocalisationFragment extends Fragment {
     };
 
 
-
     private int userID;
     private boolean locationPermissionGranted;
 
@@ -72,7 +70,7 @@ public class LocalisationFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v=  inflater.inflate(R.layout.fragment_localisation, container, false);
+        View v = inflater.inflate(R.layout.fragment_localisation, container, false);
         userID = getArguments().getInt("userID");
         return v;
     }
@@ -87,7 +85,6 @@ public class LocalisationFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
     }
-
 
 
 }

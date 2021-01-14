@@ -37,6 +37,7 @@ public class FavouriteAnimesFragement extends Fragment {
     private boolean allowRefresh = false;
 
     public View v;
+
     public FavouriteAnimesFragement() {
         // Required empty public constructor
     }
@@ -45,8 +46,8 @@ public class FavouriteAnimesFragement extends Fragment {
     public void onResume() {
         super.onResume();
         //Initialize();
-        if(allowRefresh){
-            allowRefresh=false;
+        if (allowRefresh) {
+            allowRefresh = false;
             //call your initialization code here
             setUserAnimeFavouriteList(v);
         }
@@ -66,20 +67,19 @@ public class FavouriteAnimesFragement extends Fragment {
         // Inflate the layout for this fragment
         //I made it as local variable so i can update the favourite list when i back from details activity
 
-        v= inflater.inflate(R.layout.fragment_favourite_animes_fragement, container, false);
+        v = inflater.inflate(R.layout.fragment_favourite_animes_fragement, container, false);
 
-         userId = getArguments().getInt("userID");
+        userId = getArguments().getInt("userID");
 
 
-         setUserAnimeFavouriteList(v);
-
+        setUserAnimeFavouriteList(v);
 
 
         return v;
     }
 
 
-    public void setUserAnimeFavouriteList(View v){
+    public void setUserAnimeFavouriteList(View v) {
 
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
@@ -87,7 +87,7 @@ public class FavouriteAnimesFragement extends Fragment {
         callTopAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
-            setFavouriteRecycler(v,response.body());
+                setFavouriteRecycler(v, response.body());
 
 
             }
@@ -99,10 +99,10 @@ public class FavouriteAnimesFragement extends Fragment {
         });
     }
 
-    public void setFavouriteRecycler(View v,List<Anime> favouriteAnimeList){
+    public void setFavouriteRecycler(View v, List<Anime> favouriteAnimeList) {
         favouriteRecycler = v.findViewById(R.id.favourite_recycler);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, true);
-        favouriteRecycler.setLayoutManager(new GridLayoutManager(getContext(),2));
+        favouriteRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
         favouriteRecyclerAdapter = new FavouriteRecyclerAdapter(getContext(), favouriteAnimeList);
         favouriteRecycler.setAdapter(favouriteRecyclerAdapter);
     }

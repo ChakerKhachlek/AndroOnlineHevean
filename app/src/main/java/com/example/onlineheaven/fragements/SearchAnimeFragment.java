@@ -48,18 +48,15 @@ public class SearchAnimeFragment extends Fragment {
     private SearchRecyclerAdapter searchRecyclerAdapter;
 
 
-
     public SearchAnimeFragment() {
         // Required empty public constructor
     }
 
 
-
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.search_item :
+        switch (item.getItemId()) {
+            case R.id.search_item:
 
                 item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
                     @Override
@@ -77,18 +74,18 @@ public class SearchAnimeFragment extends Fragment {
                             public boolean onQueryTextChange(String newText) {
 
                                 //handle typing delais : it will wait 0.5
-                                if(cntr != null){
+                                if (cntr != null) {
                                     cntr.cancel();
                                 }
                                 cntr = new CountDownTimer(waitingTime, 200) {
 
                                     public void onTick(long millisUntilFinished) {
-                                        Log.d("TIME","seconds remaining: " + millisUntilFinished / 1000);
+                                        Log.d("TIME", "seconds remaining: " + millisUntilFinished / 1000);
                                     }
 
                                     public void onFinish() {
-                                        Log.d("FINISHED","DONE");
-                                        getQueryResults(getView(),newText);
+                                        Log.d("FINISHED", "DONE");
+                                        getQueryResults(getView(), newText);
                                     }
                                 };
                                 cntr.start();
@@ -125,40 +122,39 @@ public class SearchAnimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_search_anime, container, false);
+        View v = inflater.inflate(R.layout.fragment_search_anime, container, false);
 
 
         querry = getArguments().getString("querry");
-        Message.shortMessage(getContext(),querry);
+        Message.shortMessage(getContext(), querry);
 
-        no_result_text=v.findViewById(R.id.no_result_text);
+        no_result_text = v.findViewById(R.id.no_result_text);
 
-        getQueryResults(v,querry);
-
+        getQueryResults(v, querry);
 
 
         return v;
     }
 
 
-    public void getQueryResults(View v,String query){
+    public void getQueryResults(View v, String query) {
         ApiInterface apiClient = RetroFitClient.getRetroFitClient();
 
         Call<List<Anime>> callSearchAnimes = apiClient.searchAnimes(query);
         callSearchAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
-                if(response.body().size()>0){
+                if (response.body().size() > 0) {
 
-                    setResultRecycler(v,response.body());
-                }else{
-                    setResultRecycler(v,new ArrayList<Anime>());
+                    setResultRecycler(v, response.body());
+                } else {
+                    setResultRecycler(v, new ArrayList<Anime>());
                     no_result_text.setVisibility(View.VISIBLE);
 
                 }
 
 
-                Log.d("aaa",response.body()+"");
+                Log.d("aaa", response.body() + "");
 
             }
 
@@ -170,7 +166,7 @@ public class SearchAnimeFragment extends Fragment {
     }
 
 
-    public void setResultRecycler(View v,List<Anime> resultAnimeList){
+    public void setResultRecycler(View v, List<Anime> resultAnimeList) {
         searchResultRecycler = v.findViewById(R.id.search_results);
         searchRecyclerAdapter = new SearchRecyclerAdapter(getContext(), resultAnimeList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

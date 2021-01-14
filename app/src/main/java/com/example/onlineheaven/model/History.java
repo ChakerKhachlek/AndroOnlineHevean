@@ -1,8 +1,8 @@
 package com.example.onlineheaven.model;
 
 public class History {
-  Integer id;
-  String history;
+    Integer id;
+    String history;
 
     public History(Integer userid, String history) {
         this.id = userid;

@@ -43,13 +43,13 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        username=findViewById(R.id.registerUsername);
-        email=findViewById(R.id.registerEmail);
-        password=findViewById(R.id.registerPassword);
-        confirmPassword=findViewById(R.id.registerConfirmPassword);
-        registerButton=findViewById(R.id.registerButton);
+        username = findViewById(R.id.registerUsername);
+        email = findViewById(R.id.registerEmail);
+        password = findViewById(R.id.registerPassword);
+        confirmPassword = findViewById(R.id.registerConfirmPassword);
+        registerButton = findViewById(R.id.registerButton);
 
-        goLogin=findViewById(R.id.goLogin);
+        goLogin = findViewById(R.id.goLogin);
 
         sharedPreferences = getSharedPreferences(LOGIN_PREFERENCE,
                 Context.MODE_PRIVATE);
@@ -57,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
         goLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loginIntent =new Intent(RegisterActivity.this,LoginActivity.class);
+                Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
                 finish();
             }
@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void playSoundEffect(String effectUrl){
+    public void playSoundEffect(String effectUrl) {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
         v.vibrate(500);
@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
             mp.reset();
             AssetFileDescriptor afd;
             afd = getAssets().openFd(effectUrl);
-            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             mp.prepare();
             mp.start();
         } catch (IllegalStateException e) {
@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void registerUser(){
+    public void registerUser() {
         String usern = username.getText().toString().trim();
         String emai = email.getText().toString().trim();
         String pass = password.getText().toString().trim();
@@ -97,49 +97,46 @@ public class RegisterActivity extends AppCompatActivity {
 
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        if(usern.isEmpty() || emai.isEmpty() || pass.isEmpty() || cpass.isEmpty()){
-            Message.longMessage(getApplicationContext(),"All fields are required ");
-        }else if(!(pass.contentEquals(cpass))){
-            Message.longMessage(getApplicationContext(),"Password & Confirm Password Must Match !");
-        }else if(!(emai.matches(emailPattern))){
-            Message.longMessage(getApplicationContext(),"Email must be valid !");
-        }
-        else{
+        if (usern.isEmpty() || emai.isEmpty() || pass.isEmpty() || cpass.isEmpty()) {
+            Message.longMessage(getApplicationContext(), "All fields are required ");
+        } else if (!(pass.contentEquals(cpass))) {
+            Message.longMessage(getApplicationContext(), "Password & Confirm Password Must Match !");
+        } else if (!(emai.matches(emailPattern))) {
+            Message.longMessage(getApplicationContext(), "Email must be valid !");
+        } else {
 
             ApiInterface apiClient = RetroFitClient.getRetroFitClient();
-            Call<User> registerCall=apiClient.registerUser(usern,emai,pass,cpass);
+            Call<User> registerCall = apiClient.registerUser(usern, emai, pass, cpass);
             registerCall.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
 
 
-                          //verif if user else it will return an email error
-                         if((response.body().getUsername().contentEquals("error") )){
-                             Message.longMessage(getApplicationContext(),"Email already taken");
+                    //verif if user else it will return an email error
+                    if ((response.body().getUsername().contentEquals("error"))) {
+                        Message.longMessage(getApplicationContext(), "Email already taken");
 
-                         }else {
+                    } else {
 
-                             //LoggedInStatus Logic
-                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                             editor.putInt(USER_ID_FIELD,response.body().getId());
-                             editor.commit();
+                        //LoggedInStatus Logic
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt(USER_ID_FIELD, response.body().getId());
+                        editor.commit();
 
-                             playSoundEffect("opening.mp3");
-                             //redirect to home
-                             Intent homeIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                             startActivity(homeIntent);
-                             finish();
-                         }
-
+                        playSoundEffect("opening.mp3");
+                        //redirect to home
+                        Intent homeIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(homeIntent);
+                        finish();
+                    }
 
 
                 }
 
 
-
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
-                    Message.longMessage(getApplicationContext(),"An Error Has Occurred ...");
+                    Message.longMessage(getApplicationContext(), "An Error Has Occurred ...");
                 }
             });
 
