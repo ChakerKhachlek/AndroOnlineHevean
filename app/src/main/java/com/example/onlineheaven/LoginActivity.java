@@ -2,6 +2,7 @@ package com.example.onlineheaven;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    ProgressDialog progressDialog;
     EditText email;
     EditText password;
     Button loginButton;
@@ -38,6 +40,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait ...");
 
         email = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);
@@ -82,10 +88,11 @@ public class LoginActivity extends AppCompatActivity {
         } else if (!(emai.matches(emailPattern))) {
             Message.longMessage(getApplicationContext(), "Email must be valid !");
         } else {
-
+            progressDialog.show();
             ApiInterface apiClient = RetroFitClient.getRetroFitClient();
             Call<User> loginCall = apiClient.loginUser(emai, pass);
             loginCall.enqueue(new Callback<User>() {
+
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
 
@@ -103,8 +110,8 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putInt(USER_ID_FIELD, response.body().getId());
                         editor.commit();
 
-
                         setResult(RESULT_OK);
+
                         finish();
                     }
                 }
@@ -112,6 +119,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
 
+                    progressDialog.cancel();
+                    Message.shortMessage(getApplication(), "Server Error");
                 }
             });
 

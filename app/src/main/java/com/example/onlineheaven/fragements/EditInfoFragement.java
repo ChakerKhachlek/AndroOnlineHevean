@@ -1,5 +1,6 @@
 package com.example.onlineheaven.fragements;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -36,13 +37,14 @@ public class EditInfoFragement extends Fragment {
     EditText newPassword;
     EditText confirmNewPassword;
     Button updatePasswordButton;
-
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_info_fragement, container, false);
+
         userEmail = v.findViewById(R.id.EditProfileEmail);
         userName = v.findViewById(R.id.EditProfileName);
         editProfileButton = v.findViewById(R.id.updateInfoButton);
@@ -53,6 +55,11 @@ public class EditInfoFragement extends Fragment {
 
 
         userId = getArguments().getInt("userID");
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait ...");
+        progressDialog.show();
+
         getUserInfo(userId);
 
 
@@ -157,18 +164,25 @@ public class EditInfoFragement extends Fragment {
         callUser.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                if (response.body() == null || !(response.isSuccessful())) {
+                    progressDialog.cancel();
+                    Message.shortMessage(getActivity(),"Can't connect to server");
+                }else{
+                    User userData = response.body();
+                    oldUserName = userData.getUsername();
+                    oldUserEmail = userData.getEmail();
 
-                User userData = response.body();
-                oldUserName = userData.getUsername();
-                oldUserEmail = userData.getEmail();
+                    userEmail.setText(oldUserEmail);
+                    userName.setText(oldUserName);
+                    progressDialog.cancel();
+                }
 
-                userEmail.setText(oldUserEmail);
-                userName.setText(oldUserName);
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                progressDialog.cancel();
+                Message.shortMessage(getActivity(),"Can't connect to server");
             }
         });
 

@@ -1,5 +1,6 @@
 package com.example.onlineheaven.fragements;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -31,7 +32,7 @@ import retrofit2.Response;
 public class FavouriteAnimesFragement extends Fragment {
     Integer userId;
 
-
+    ProgressDialog progressDialog;
     RecyclerView favouriteRecycler;
     FavouriteRecyclerAdapter favouriteRecyclerAdapter;
     private boolean allowRefresh = false;
@@ -72,6 +73,10 @@ public class FavouriteAnimesFragement extends Fragment {
         userId = getArguments().getInt("userID");
 
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait ...");
+        progressDialog.show();
+
         setUserAnimeFavouriteList(v);
 
 
@@ -87,14 +92,22 @@ public class FavouriteAnimesFragement extends Fragment {
         callTopAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
-                setFavouriteRecycler(v, response.body());
+                if (response.body() == null || !(response.isSuccessful())) {
 
 
+                    progressDialog.cancel();
+                    Message.shortMessage(getActivity(),"Can't connect to server");
+                }else {
+                    setFavouriteRecycler(v, response.body());
+
+                    progressDialog.cancel();
+                }
             }
 
             @Override
             public void onFailure(Call<List<Anime>> call, Throwable t) {
-
+                Message.shortMessage(getActivity(),"Can't connect to server");
+                progressDialog.cancel();
             }
         });
     }

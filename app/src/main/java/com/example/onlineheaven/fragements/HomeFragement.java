@@ -1,7 +1,5 @@
 package com.example.onlineheaven.fragements;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
@@ -14,9 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.onlineheaven.ErrorActivity;
-import com.example.onlineheaven.MainActivity;
-import com.example.onlineheaven.Message;
 import com.example.onlineheaven.R;
 import com.example.onlineheaven.adapter.BannerAnimesPagerAdapter;
 import com.example.onlineheaven.adapter.MainRecyclerAdapter;
@@ -67,15 +62,15 @@ public class HomeFragement extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_home_fragement, container, false);
 
+
+
         indicatorTab = v.findViewById(R.id.tab_indicator);
         categoryTab = v.findViewById(R.id.tabLayout);
         nestedScrollView = v.findViewById(R.id.nested_scroll);
         appBarLayout = v.findViewById(R.id.appbar);
 
 
-        sliderTimer = new Timer();
-        sliderTimer.scheduleAtFixedRate(new AutoSlider(), 4000, 6000);
-        indicatorTab.setupWithViewPager(bannerAnimesViewPager, true);
+
 
 
         //setting the banner data tabs Lists
@@ -83,6 +78,10 @@ public class HomeFragement extends Fragment {
 
         //setting the main recycler data tabs Lists
         setMainRecyclerData(v);
+
+        sliderTimer = new Timer();
+        sliderTimer.scheduleAtFixedRate(new AutoSlider(), 4000, 6000);
+        indicatorTab.setupWithViewPager(bannerAnimesViewPager, true);
 
 
         //on tab change selected data
@@ -125,7 +124,7 @@ public class HomeFragement extends Fragment {
         public void run() {
 
 
-            if (getActivity() != null) {
+            if (getActivity() != null && bannerAnimesViewPager != null ) {
                 getActivity().runOnUiThread(() -> {
                     if (bannerAnimesViewPager.getCurrentItem() < topRatedBannerList.size() - 1) {
                         bannerAnimesViewPager.setCurrentItem(bannerAnimesViewPager.getCurrentItem() + 1);
@@ -171,17 +170,19 @@ public class HomeFragement extends Fragment {
         callTopAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
+                if (response.body() == null || !(response.isSuccessful())) {
 
 
-                topRatedBannerList = response.body();
+                }else {
 
+                    topRatedBannerList = response.body();
+
+                }
 
             }
 
             @Override
             public void onFailure(Call<List<Anime>> call, Throwable t) {
-
-                Message.shortMessage(getActivity(), "Not Connected");
 
 
             }
@@ -192,9 +193,13 @@ public class HomeFragement extends Fragment {
         callLastAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
+                if (response.body() == null || !(response.isSuccessful())) {
 
-                lastAddedBannerList = response.body();
-                setBannerAnimesPagerAdapter(v, lastAddedBannerList);
+
+                }else {
+                    lastAddedBannerList = response.body();
+                    setBannerAnimesPagerAdapter(v, lastAddedBannerList);
+                }
 
             }
 
@@ -216,15 +221,14 @@ public class HomeFragement extends Fragment {
 
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                if (response.body() != null) {
+                if (response.body() == null || !(response.isSuccessful())) {
+
+                }else{
                     setMainRecycler(v, response.body());
-                    Message.shortMessage(getContext(), "Anime data loaded !");
-                } else {
-                    Message.shortMessage(getContext(), "Problem loading data");
-                    Intent intent = new Intent(getActivity(), ErrorActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+
                 }
+
+
 
 
             }

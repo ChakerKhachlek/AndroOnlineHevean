@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.os.Vibrator;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -16,10 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.example.onlineheaven.R;
 import com.google.android.material.navigation.NavigationView;
-
 import java.io.IOException;
 
 
