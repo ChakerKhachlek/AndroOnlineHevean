@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.website_item:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://onlineaheavenplatform.azurewebsites.net/forum/home"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://onlineheaven.azurewebsites.net/"));
                 startActivity(browserIntent);
                 break;
 

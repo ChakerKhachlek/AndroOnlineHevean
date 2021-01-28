@@ -15,7 +15,7 @@ public class RetroFitClient {
     //first api deployment https://androidonlineheavenapi.herokuapp.com/api/
     //used api https://animerestapi.azurewebsites.net/api/
 
-    private static final String BASE_URL = "http://192.168.1.51:8000/api/";
+    private static final String BASE_URL = "https://androidonlineheavenapi.herokuapp.com/api/";
 
 
     public static ApiInterface getRetroFitClient() {

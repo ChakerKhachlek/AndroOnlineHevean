@@ -144,14 +144,20 @@ public class SearchAnimeFragment extends Fragment {
         callSearchAnimes.enqueue(new Callback<List<Anime>>() {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
-                if (response.body().size() > 0) {
 
-                    setResultRecycler(v, response.body());
-                } else {
-                    setResultRecycler(v, new ArrayList<Anime>());
-                    no_result_text.setVisibility(View.VISIBLE);
+                if (response.body() == null || !(response.isSuccessful())) {
+                    Message.shortMessage(getActivity(),"Can't connect to server");
+                }else{
+                    if (response.body().size() > 0) {
 
+                        setResultRecycler(v, response.body());
+                    } else {
+                        setResultRecycler(v, new ArrayList<Anime>());
+                        no_result_text.setVisibility(View.VISIBLE);
+
+                    }
                 }
+
 
 
                 Log.d("aaa", response.body() + "");
@@ -160,7 +166,7 @@ public class SearchAnimeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Anime>> call, Throwable t) {
-
+                Message.shortMessage(getActivity(),"Can't connect to server");
             }
         });
     }

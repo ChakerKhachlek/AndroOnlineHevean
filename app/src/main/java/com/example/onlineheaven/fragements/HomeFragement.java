@@ -45,7 +45,6 @@ public class HomeFragement extends Fragment {
     NestedScrollView nestedScrollView;
     AppBarLayout appBarLayout;
 
-
     MainRecyclerAdapter mainRecyclerAdapter;
     RecyclerView mainRecycler;
 

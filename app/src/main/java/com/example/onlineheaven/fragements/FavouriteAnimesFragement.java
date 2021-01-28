@@ -93,8 +93,6 @@ public class FavouriteAnimesFragement extends Fragment {
             @Override
             public void onResponse(Call<List<Anime>> call, Response<List<Anime>> response) {
                 if (response.body() == null || !(response.isSuccessful())) {
-
-
                     progressDialog.cancel();
                     Message.shortMessage(getActivity(),"Can't connect to server");
                 }else {
